@@ -8,7 +8,6 @@ import {
   Terminal,
   FileCode,
   FileJson,
-  ChevronsDown,
   GraduationCap,
   Code,
   Rocket,
@@ -785,13 +784,6 @@ function App() {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Bottom Scroll Indicator */}
-          <div className="scroll-indicator animate-bounce-slow">
-            <a href="#about" onClick={(e) => scrollToSection('about', e)} aria-label="Scroll down to About section">
-              <ChevronsDown className="w-6 h-6 scroll-indicator-icon" />
-            </a>
           </div>
         </section>
 
