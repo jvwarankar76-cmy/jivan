@@ -43,8 +43,12 @@ import {
   ChevronRight,
   Maximize2,
   Play,
-  Pause
+  Pause,
+  AlertCircle
 } from 'lucide-react';
+
+import AdminDashboard from './components/AdminDashboard';
+import { submitContactRequest } from './supabase';
 
 interface Skill {
   name: string;
@@ -76,6 +80,8 @@ function App() {
   const [activeSection, setActiveSection] = useState('hero');
   const [scrolled, setScrolled] = useState(false);
   const [backToTopVisible, setBackToTopVisible] = useState(false);
+  const [isAdminView, setIsAdminView] = useState(window.location.hash.toLowerCase().startsWith('#admin'));
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Form states
   const [formData, setFormData] = useState({
@@ -217,6 +223,15 @@ function App() {
   /* ==========================================================================
      EFFECTS & OBSERVERS
      ========================================================================== */
+  // Hash listener for Admin View
+  useEffect(() => {
+    const handleHashChange = () => {
+      setIsAdminView(window.location.hash.toLowerCase().startsWith('#admin'));
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   // Theme logic
   useEffect(() => {
     const storedTheme = localStorage.getItem('theme') as 'dark' | 'light' | null;
@@ -294,7 +309,7 @@ function App() {
       sectionsList.forEach((section) => sectionObserver.unobserve(section));
       scrollRevealList.forEach((el) => revealObserver.unobserve(el));
     };
-  }, []);
+  }, [isAdminView]);
 
   // Autoplay functionality for Slider
   useEffect(() => {
@@ -329,7 +344,7 @@ function App() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errors: Record<string, string> = {};
 
@@ -349,16 +364,26 @@ function App() {
 
     setFormErrors({});
     setIsSubmitting(true);
+    setSubmitError(null);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    const res = await submitContactRequest(
+      formData.name,
+      formData.email,
+      formData.subject,
+      formData.message
+    );
+
+    setIsSubmitting(false);
+
+    if (res.success) {
       setIsSuccessVisible(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-
       setTimeout(() => {
         setIsSuccessVisible(false);
       }, 8000);
-    }, 1500);
+    } else {
+      setSubmitError(res.error || 'Failed to submit request. Please try again.');
+    }
   };
 
   const scrollToSection = (id: string, e: React.MouseEvent) => {
@@ -378,6 +403,17 @@ function App() {
   const nextSlide = () => {
     setActiveSlide((prev) => (prev + 1) % galleryPhotos.length);
   };
+
+  if (isAdminView) {
+    return (
+      <AdminDashboard
+        onClose={() => {
+          window.location.hash = '';
+          setIsAdminView(false);
+        }}
+      />
+    );
+  }
 
   return (
     <>
@@ -452,6 +488,18 @@ function App() {
                   onClick={(e) => scrollToSection('contact', e)}
                 >
                   Contact
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#admin"
+                  className="nav-link font-semibold text-indigo-400 hover:text-indigo-300"
+                  onClick={() => {
+                    window.location.hash = 'admin';
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  Admin
                 </a>
               </li>
             </ul>
@@ -560,6 +608,18 @@ function App() {
                 onClick={(e) => scrollToSection('contact', e)}
               >
                 Contact
+              </a>
+            </li>
+            <li>
+              <a
+                href="#admin"
+                className="drawer-link font-semibold text-indigo-400"
+                onClick={() => {
+                  window.location.hash = 'admin';
+                  setIsMenuOpen(false);
+                }}
+              >
+                Admin
               </a>
             </li>
           </ul>
@@ -1422,10 +1482,21 @@ function App() {
                   <div className={`success-message ${isSuccessVisible ? 'visible' : ''}`}>
                     <CheckCircle className="w-5 h-5 text-emerald-500" />
                     <div>
-                      <h5>Message Verified!</h5>
-                      <p>Thank you for testing. This form is client-side only; your message has been validated successfully.</p>
+                      <h5>Message Received!</h5>
+                      <p>Thank you! Your request has been successfully sent. I will review it and get back to you shortly.</p>
                     </div>
                   </div>
+
+                  {/* Submission Error Banner */}
+                  {submitError && (
+                    <div className="success-message visible !border-rose-500/20 !bg-rose-500/5 mt-4">
+                      <AlertCircle className="w-5 h-5 text-rose-500" />
+                      <div>
+                        <h5 className="!text-rose-400">Submission Failed</h5>
+                        <p className="!text-rose-300/80">{submitError}</p>
+                      </div>
+                    </div>
+                  )}
                 </form>
               </div>
             </div>
@@ -1503,7 +1574,12 @@ function App() {
           <hr className="footer-divider" />
           <div className="footer-bottom">
             <p>&copy; 2026 Jivan Warankar. All rights reserved.</p>
-            <p className="footer-notes">Created as a professional React + Tailwind portfolio.</p>
+            <p className="footer-notes">
+              Created as a professional React + Tailwind portfolio.
+              <a href="#admin" className="ml-3 text-indigo-400/85 hover:text-indigo-400 hover:underline transition-colors font-medium">
+                Admin Portal
+              </a>
+            </p>
           </div>
         </div>
       </footer>
