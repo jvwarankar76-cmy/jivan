@@ -1,6 +1,5 @@
 export const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
 export const ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
-export const SERVICE_KEY = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY || '';
 
 export interface PortfolioUser {
   username: string;
@@ -94,7 +93,7 @@ export async function signInAdmin(
 }
 
 /**
- * Fetch all contact requests (bypasses RLS using the Service Key)
+ * Fetch all contact requests via Vercel Serverless Function
  */
 export async function fetchContactRequests(): Promise<{
   success: boolean;
@@ -103,11 +102,9 @@ export async function fetchContactRequests(): Promise<{
   tableMissing?: boolean;
 }> {
   try {
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/contact_requests?order=created_at.desc`, {
+    const response = await fetch('/api/contact-requests', {
       method: 'GET',
       headers: {
-        'apikey': SERVICE_KEY,
-        'Authorization': `Bearer ${SERVICE_KEY}`,
         'Content-Type': 'application/json'
       }
     });
@@ -124,7 +121,7 @@ export async function fetchContactRequests(): Promise<{
       const errData = await response.json().catch(() => ({}));
       return {
         success: false,
-        error: errData.message || `HTTP error! status: ${response.status}`
+        error: errData.error || `HTTP error! status: ${response.status}`
       };
     }
 
@@ -136,18 +133,16 @@ export async function fetchContactRequests(): Promise<{
 }
 
 /**
- * Update request status (read / unread)
+ * Update request status (read / unread) via Vercel Serverless Function
  */
 export async function updateRequestStatus(
   id: string,
   status: 'read' | 'unread'
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/contact_requests?id=eq.${id}`, {
+    const response = await fetch(`/api/contact-requests?id=${encodeURIComponent(id)}`, {
       method: 'PATCH',
       headers: {
-        'apikey': SERVICE_KEY,
-        'Authorization': `Bearer ${SERVICE_KEY}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ status })
@@ -157,7 +152,7 @@ export async function updateRequestStatus(
       const errData = await response.json().catch(() => ({}));
       return {
         success: false,
-        error: errData.message || `HTTP error! status: ${response.status}`
+        error: errData.error || `HTTP error! status: ${response.status}`
       };
     }
 
@@ -168,17 +163,15 @@ export async function updateRequestStatus(
 }
 
 /**
- * Delete a request from Supabase
+ * Delete a request via Vercel Serverless Function
  */
 export async function deleteRequest(
   id: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/contact_requests?id=eq.${id}`, {
+    const response = await fetch(`/api/contact-requests?id=${encodeURIComponent(id)}`, {
       method: 'DELETE',
       headers: {
-        'apikey': SERVICE_KEY,
-        'Authorization': `Bearer ${SERVICE_KEY}`,
         'Content-Type': 'application/json'
       }
     });
@@ -187,7 +180,7 @@ export async function deleteRequest(
       const errData = await response.json().catch(() => ({}));
       return {
         success: false,
-        error: errData.message || `HTTP error! status: ${response.status}`
+        error: errData.error || `HTTP error! status: ${response.status}`
       };
     }
 
@@ -198,7 +191,7 @@ export async function deleteRequest(
 }
 
 /**
- * Sign in admin or guest using custom credentials table
+ * Sign in admin or guest via Vercel Serverless Function
  */
 export async function signInWithCredentials(
   username: string,
@@ -210,17 +203,16 @@ export async function signInWithCredentials(
   tableMissing?: boolean;
 }> {
   try {
-    const response = await fetch(
-      `${SUPABASE_URL}/rest/v1/portfolio_users?username=eq.${encodeURIComponent(username)}&password=eq.${encodeURIComponent(passwordRaw)}`,
-      {
-        method: 'GET',
-        headers: {
-          'apikey': SERVICE_KEY,
-          'Authorization': `Bearer ${SERVICE_KEY}`,
-          'Content-Type': 'application/json'
-        }
-      }
-    );
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username,
+        password: passwordRaw
+      })
+    });
 
     if (response.status === 404) {
       return {
@@ -230,30 +222,19 @@ export async function signInWithCredentials(
       };
     }
 
+    const data = await response.json().catch(() => ({}));
+
     if (!response.ok) {
-      const errData = await response.json().catch(() => ({}));
       return {
         success: false,
-        error: errData.message || `HTTP error! status: ${response.status}`
+        error: data.error || `HTTP error! status: ${response.status}`
       };
     }
 
-    const users = await response.json();
-    if (users && users.length > 0) {
-      const user = users[0];
-      return {
-        success: true,
-        user: {
-          username: user.username,
-          role: user.role
-        }
-      };
-    } else {
-      return {
-        success: false,
-        error: 'Invalid username or password'
-      };
-    }
+    return {
+      success: true,
+      user: data.user
+    };
   } catch (error: any) {
     return { success: false, error: error.message || 'Network error occurred' };
   }
