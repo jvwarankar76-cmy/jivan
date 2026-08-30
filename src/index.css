@@ -2446,4 +2446,11 @@ main {
         background-color: var(--bg-primary) !important;
         transform: translate3d(0, 0, 0);
     }
+
+    /* Force all scroll-reveal elements to be fully visible on mobile to prevent transition/observer freezes */
+    .scroll-reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
 }
