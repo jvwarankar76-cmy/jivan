@@ -365,10 +365,7 @@ function App() {
     e.preventDefault();
     const targetElement = document.getElementById(id);
     if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
+      window.location.hash = id;
       setIsMenuOpen(false);
     }
   };
