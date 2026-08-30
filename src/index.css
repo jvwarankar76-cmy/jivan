@@ -2240,3 +2240,110 @@ html[data-theme="light"] .success-message {
         transform: translate3d(70px, 0, -50px) rotateY(-15deg) scale(0.78);
     }
 }
+
+/* Custom resets and locks for mobile viewports */
+.btn span {
+    color: inherit !important;
+}
+
+.btn svg {
+    color: inherit !important;
+    stroke: currentColor;
+}
+
+/* Structured mock editor lines */
+.code-lines {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.code-line {
+    display: flex;
+    align-items: flex-start;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    margin-bottom: 2px;
+    width: 100%;
+}
+
+.line-num {
+    display: inline-block;
+    width: 24px;
+    color: var(--text-muted);
+    user-select: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    margin-right: 12px;
+    text-align: right;
+    padding-right: 6px;
+    flex-shrink: 0;
+}
+
+html[data-theme="light"] .line-num {
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.code-content {
+    display: inline-block;
+    white-space: pre;
+    overflow-x: auto;
+    max-width: 100%;
+    color: var(--text-primary);
+}
+
+.code-indent {
+    display: inline-block;
+    width: 16px;
+    flex-shrink: 0;
+}
+
+/* Forces text color in hero content on mobile */
+@media (max-width: 768px) {
+    .header {
+        width: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+    .nav-container {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        padding: 0 1.5rem !important;
+    }
+    .logo {
+        margin-right: auto !important;
+        text-align: left !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+    .hamburger-menu {
+        margin-left: auto !important;
+        display: flex !important;
+    }
+    .hero-title {
+        font-size: 2.4rem !important;
+        color: var(--text-primary) !important;
+        text-align: center;
+        margin-bottom: 1rem;
+        display: block;
+        opacity: 1 !important;
+    }
+    .hero-subtitle {
+        font-size: 1.3rem !important;
+        color: var(--text-secondary) !important;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        display: block;
+        opacity: 1 !important;
+    }
+    .hero-desc {
+        font-size: 1rem !important;
+        color: var(--text-secondary) !important;
+        text-align: center;
+        margin-bottom: 2rem;
+        display: block;
+        opacity: 1 !important;
+    }
+}

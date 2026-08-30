@@ -654,40 +654,135 @@ function App() {
                 </div>
                 <div className="ide-editor">
                   {activeTab === 'js' ? (
-                    <pre className="code-lines">
-<code><span className="line-num">1</span><span className="code-keyword">const</span> <span className="code-variable">developer</span> = &#123;
-<span className="line-num">2</span>  name: <span className="code-string">'Jivan Warankar'</span>,
-<span className="line-num">3</span>  education: <span className="code-string">'B.Sc. Information Technology'</span>,
-<span className="line-num">4</span>  role: <span className="code-string">'Aspiring Software Developer'</span>,
-<span className="line-num">5</span>  skills: [
-<span className="line-num">6</span>    <span className="code-string">'React'</span>, <span className="code-string">'JavaScript'</span>, <span className="code-string">'HTML/CSS'</span>,
-<span className="line-num">7</span>    <span className="code-string">'Git'</span>, <span className="code-string">'VS Code'</span>, <span className="code-string">'Software Design'</span>
-<span className="line-num">8</span>  ],
-<span className="line-num">9</span>  passions: [
-<span className="line-num">10</span>    <span className="code-string">'Building digital experiences'</span>,
-<span className="line-num">11</span>    <span className="code-string">'Solving complex puzzles'</span>
-<span className="line-num">12</span>  ],
-<span className="line-num">13</span>  readyToCode: <span className="code-bool">true</span>
-<span className="line-num">14</span>&#125;;
-<span className="line-num">15</span>
-<span className="line-num">16</span><span className="code-keyword">function</span> <span className="code-entity">hireJivan</span>() &#123;
-<span className="line-num">17</span>  <span className="code-keyword">if</span> (<span className="code-variable">developer</span>.readyToCode) &#123;
-<span className="line-num">18</span>    <span className="code-keyword">return</span> <span className="code-string">'Let\'s build something great together!'</span>;
-<span className="line-num">19</span>  &#125;
-<span className="line-num">20</span>&#125;</code></pre>
+                    <div className="code-lines">
+                      <div className="code-line">
+                        <span className="line-num">1</span>
+                        <span className="code-content"><span className="code-keyword">const</span> <span className="code-variable">developer</span> = &#123;</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">2</span>
+                        <span className="code-content"><span className="code-indent"></span>name: <span className="code-string">'Jivan Warankar'</span>,</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">3</span>
+                        <span className="code-content"><span className="code-indent"></span>education: <span className="code-string">'B.Sc. Information Technology'</span>,</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">4</span>
+                        <span className="code-content"><span className="code-indent"></span>role: <span className="code-string">'Aspiring Software Developer'</span>,</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">5</span>
+                        <span className="code-content"><span className="code-indent"></span>skills: [</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">6</span>
+                        <span className="code-content"><span className="code-indent"></span><span className="code-indent"></span><span className="code-string">'React'</span>, <span className="code-string">'JavaScript'</span>, <span className="code-string">'HTML/CSS'</span>,</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">7</span>
+                        <span className="code-content"><span className="code-indent"></span><span className="code-indent"></span><span className="code-string">'Git'</span>, <span className="code-string">'VS Code'</span>, <span className="code-string">'Software Design'</span></span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">8</span>
+                        <span className="code-content"><span className="code-indent"></span>],</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">9</span>
+                        <span className="code-content"><span className="code-indent"></span>passions: [</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">10</span>
+                        <span className="code-content"><span className="code-indent"></span><span className="code-indent"></span><span className="code-string">'Building digital experiences'</span>,</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">11</span>
+                        <span className="code-content"><span className="code-indent"></span><span className="code-indent"></span><span className="code-string">'Solving complex puzzles'</span></span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">12</span>
+                        <span className="code-content"><span className="code-indent"></span>],</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">13</span>
+                        <span className="code-content"><span className="code-indent"></span>readyToCode: <span className="code-bool">true</span></span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">14</span>
+                        <span className="code-content">&#125;;</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">15</span>
+                        <span className="code-content"></span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">16</span>
+                        <span className="code-content"><span className="code-keyword">function</span> <span className="code-entity">hireJivan</span>() &#123;</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">17</span>
+                        <span className="code-content"><span className="code-indent"></span><span className="code-keyword">if</span> (<span className="code-variable">developer</span>.readyToCode) &#123;</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">18</span>
+                        <span className="code-content"><span className="code-indent"></span><span className="code-indent"></span><span className="code-keyword">return</span> <span className="code-string">'Let\'s build something great together!'</span>;</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">19</span>
+                        <span className="code-content"><span className="code-indent"></span>&#125;</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">20</span>
+                        <span className="code-content">&#125;</span>
+                      </div>
+                    </div>
                   ) : (
-                    <pre className="code-lines">
-<code><span className="line-num">1</span>&#123;
-<span className="line-num">2</span>  <span className="code-keyword">"programming"</span>: [
-<span className="line-num">3</span>    <span className="code-string">"JavaScript"</span>, <span className="code-string">"Python"</span>, <span className="code-string">"C++"</span>
-<span className="line-num">4</span>  ],
-<span className="line-num">5</span>  <span className="code-keyword">"webDevelopment"</span>: [
-<span className="line-num">6</span>    <span className="code-string">"HTML5"</span>, <span className="code-string">"CSS3"</span>, <span className="code-string">"React"</span>
-<span className="line-num">7</span>  ],
-<span className="line-num">8</span>  <span className="code-keyword">"tools"</span>: [
-<span className="line-num">9</span>    <span className="code-string">"Git"</span>, <span className="code-string">"GitHub"</span>, <span className="code-string">"VS Code"</span>
-<span className="line-num">10</span>  ]
-<span className="line-num">11</span>&#125;</code></pre>
+                    <div className="code-lines">
+                      <div className="code-line">
+                        <span className="line-num">1</span>
+                        <span className="code-content">&#123;</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">2</span>
+                        <span className="code-content"><span className="code-indent"></span><span className="code-keyword">"programming"</span>: [</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">3</span>
+                        <span className="code-content"><span className="code-indent"></span><span className="code-indent"></span><span className="code-string">"JavaScript"</span>, <span className="code-string">"Python"</span>, <span className="code-string">"C++"</span></span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">4</span>
+                        <span className="code-content"><span className="code-indent"></span>],</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">5</span>
+                        <span className="code-content"><span className="code-indent"></span><span className="code-keyword">"webDevelopment"</span>: [</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">6</span>
+                        <span className="code-content"><span className="code-indent"></span><span className="code-indent"></span><span className="code-string">"HTML5"</span>, <span className="code-string">"CSS3"</span>, <span className="code-string">"React"</span></span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">7</span>
+                        <span className="code-content"><span className="code-indent"></span>],</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">8</span>
+                        <span className="code-content"><span className="code-indent"></span><span className="code-keyword">"tools"</span>: [</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">9</span>
+                        <span className="code-content"><span className="code-indent"></span><span className="code-indent"></span><span className="code-string">"Git"</span>, <span className="code-string">"GitHub"</span>, <span className="code-string">"VS Code"</span></span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">10</span>
+                        <span className="code-content"><span className="code-indent"></span>]</span>
+                      </div>
+                      <div className="code-line">
+                        <span className="line-num">11</span>
+                        <span className="code-content">&#125;</span>
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
