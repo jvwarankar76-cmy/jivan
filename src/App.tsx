@@ -366,11 +366,9 @@ function App() {
     e.preventDefault();
     const targetElement = document.getElementById(id);
     if (targetElement) {
-      const offset = 80;
-      const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
       });
       setIsMenuOpen(false);
     }
